@@ -21,3 +21,13 @@ backend:
 # The secrets to expose to the backend
 secrets:
   - GEMINI_API_KEY
+# The environment variables to expose to the backend
+env:
+  - variable: GENKIT_ENV
+    value: 'production'
+# The entrypoint for the functions
+entrypoint: hive-goals-backend
+# The entrypoint for the functions
+functions:
+  # The entrypoint for the functions
+  entrypoint: lib/functions.js
