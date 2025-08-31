@@ -1,0 +1,23 @@
+# The name of the backend
+backend:
+  # The name of the backend
+  name: hive-goals-backend
+  # The region to deploy the backend to
+  region: us-central1
+  # The resources to grant the backend
+  resources:
+    # The CPU to allocate to the backend
+    cpu: 1
+    # The memory to allocate to the backend
+    memoryMiB: 512
+  # The number of instances to run
+  instances:
+    # The minimum number of instances to run
+    min: 0
+    # The maximum number of instances to run
+    max: 2
+  # The concurrency of the backend
+  concurrency: 80
+# The secrets to expose to the backend
+secrets:
+  - GEMINI_API_KEY
