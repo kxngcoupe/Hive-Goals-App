@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -33,6 +34,18 @@ export default function ProfilePage() {
     });
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // The result will be a base64 encoded data URL
+        setAvatarUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="p-4 sm:p-6 lg:p-8">
       <PageHeader
@@ -52,12 +65,12 @@ export default function ProfilePage() {
                     <AvatarFallback>{name?.[0].toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 space-y-2">
-                    <Label htmlFor="avatar-url">Profile Picture URL</Label>
+                    <Label htmlFor="avatar-file">Upload new picture</Label>
                     <Input 
-                        id="avatar-url"
-                        value={avatarUrl}
-                        onChange={(e) => setAvatarUrl(e.target.value)}
-                        placeholder="https://example.com/image.png"
+                        id="avatar-file"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
                     />
                 </div>
             </div>
