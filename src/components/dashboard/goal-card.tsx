@@ -9,7 +9,7 @@ import { users } from '@/lib/data';
 import { useState, useMemo, useCallback } from 'react';
 import { differenceInDays, format, parseISO } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
-import { CalendarIcon, Hexagon, Pencil } from 'lucide-react';
+import { CalendarIcon, CheckSquare, Pencil } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import { Button } from '../ui/button';
 import { EditGoalDialog } from './edit-goal-dialog';
@@ -70,21 +70,6 @@ export function GoalCard({ goal: initialGoal }: { goal: Goal }) {
   
   const deadline = parseISO(goal.deadline);
   const daysLeft = differenceInDays(deadline, new Date());
-  
-  const totalManna = useMemo(() => tasks.reduce((sum, task) => sum + task.manna, 0), [tasks]);
-  const earnedManna = useMemo(() => {
-    return tasks.reduce((sum, task) => {
-        if (task.isCompleted) {
-            return sum + task.manna;
-        }
-        if (typeof task.quota === 'number' && typeof task.progress === 'number') {
-            // Prorated manna for quota tasks
-            return sum + Math.floor((task.progress / task.quota) * task.manna);
-        }
-        return sum;
-    }, 0);
-  }, [tasks]);
-
 
   return (
     <Card className="overflow-hidden shadow-md transition-shadow hover:shadow-lg">
@@ -116,8 +101,8 @@ export function GoalCard({ goal: initialGoal }: { goal: Goal }) {
         </div>
         <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1.5">
-                <Hexagon className="h-4 w-4 text-primary" />
-                <span>{earnedManna} / {totalManna} Manna</span>
+                <CheckSquare className="h-4 w-4 text-primary" />
+                <span>{totalProgress} / {totalQuota} Tasks</span>
             </div>
             <div className="flex-1">
                 <Progress value={progress} className="h-2" />
