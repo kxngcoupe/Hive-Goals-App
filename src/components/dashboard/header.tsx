@@ -1,23 +1,19 @@
 'use client';
 
-import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from '@/components/ui/button';
 import { BeeIcon } from "@/components/icons/bee-icon";
 import { useAuth } from '@/context/auth-context';
-import { Calendar, LogOut, MessageSquare } from 'lucide-react';
-import { users, goals } from '@/lib/data'; // for manna, will be replaced later
+import { Calendar, LogOut } from 'lucide-react';
+import { users } from '@/lib/data'; // for manna, will be replaced later
 import Link from 'next/link';
-import { Chatbot } from './chatbot';
 
 export default function Header() {
   const { user, signOut } = useAuth();
-  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
-
-  // In a real app, you'd get the current user and their specific goal.
+  
+  // In a real app, you'd get the current user.
   // For this prototype, we'll use mock data.
-  const currentUser = users.find(u => u.name === 'Alex Queen') ?? users[0];
-  const currentGoal = goals[0]; 
+  const currentUser = users.find(u => u.email === user?.email) ?? users[0];
 
   if (!user) return null;
 
@@ -40,9 +36,6 @@ export default function Header() {
       </nav>
 
       <div className="ml-auto flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => setIsChatbotOpen(true)}>
-            <MessageSquare className="h-5 w-5" />
-        </Button>
         <div className="text-right">
           <p className="text-sm font-medium">{user.email}</p>
           <p className="text-xs text-muted-foreground">{currentUser.manna.toLocaleString()} manna</p>
@@ -55,14 +48,6 @@ export default function Header() {
           <LogOut className="h-4 w-4" />
         </Button>
       </div>
-      {currentUser && currentGoal && (
-        <Chatbot
-          isOpen={isChatbotOpen}
-          onOpenChange={setIsChatbotOpen}
-          userName={currentUser.name}
-          goalTitle={currentGoal.title}
-        />
-      )}
     </header>
   );
 }
