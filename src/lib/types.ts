@@ -34,5 +34,16 @@ export type Reward = {
 
 export type Availability = {
   userId: string;
-  dates: string[]; // YYYY-MM-DD format
+  times: {
+    date: string; // YYYY-MM-DD format
+    start: string; // HH:mm format
+    end: string;   // HH:mm format
+  }[];
+};
+
+export type Event = {
+    id: string;
+    title: string;
+    description: string;
+    date: string; // YYYY-MM-DD format
 };

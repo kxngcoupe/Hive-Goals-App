@@ -1,4 +1,4 @@
-import type { User, Goal, Reward, Task, Availability } from './types';
+import type { User, Goal, Reward, Task, Availability, Event } from './types';
 
 export const users: User[] = [
   { id: 'user1', name: 'Alex Queen', email: 'isaiahwcooper@gmail.com', avatarUrl: 'https://picsum.photos/100/100?a', manna: 250, role: 'Admin' },
@@ -53,11 +53,15 @@ export const rewards: Reward[] = [
     { id: 'reward4', name: 'Lunch on the Company', description: 'Get a free lunch delivered to the office.', cost: 150 },
 ];
 
+export const events: Event[] = [
+    { id: 'event1', title: 'Q3 Launch Sync', description: 'Sync up on the launch campaign progress.', date: '2024-07-29' },
+    { id: 'event2', title: 'Team Offsite Planning', description: 'Brainstorm ideas for the next team offsite.', date: '2024-08-05' },
+];
+
 export const availability: Availability[] = [
-    { userId: 'user1', dates: ['2024-07-25', '2024-07-26', '2024-08-01'] },
-    { userId: 'user2', dates: ['2024-07-26', '2024-07-29', '2024-08-02'] },
-    { userId: 'user3', dates: ['2024-07-25', '2024-07-30', '2024-08-01'] },
-    { userId: 'user4', dates: ['2024-07-27', '2024-08-03'] },
+    { userId: 'user1', times: [{ date: '2024-07-25', start: '09:00', end: '12:00' }, { date: '2024-08-01', start: '13:00', end: '17:00' }] },
+    { userId: 'user2', times: [{ date: '2024-07-26', start: '10:00', end: '15:00' }] },
+    { userId: 'user3', times: [{ date: '2024-07-25', start: '11:00', end: '14:00' }, { date: '2024-08-01', start: '09:00', end: '11:00' }] },
 ];
 
 export const getGoalHistorySummary = (): string => {
