@@ -1,4 +1,4 @@
-import type { User, Goal, Reward, Task } from './types';
+import type { User, Goal, Reward, Task, Availability } from './types';
 
 export const users: User[] = [
   { id: 'user1', name: 'Alex Queen', email: 'isaiahwcooper@gmail.com', avatarUrl: 'https://picsum.photos/100/100?a', manna: 250, role: 'Admin' },
@@ -51,6 +51,13 @@ export const rewards: Reward[] = [
     { id: 'reward2', name: 'Half-Day Off', description: 'Enjoy a relaxing afternoon off, on the house.', cost: 500 },
     { id: 'reward3', name: 'Company Swag Box', description: 'A box of exclusive company-branded merchandise.', cost: 250 },
     { id: 'reward4', name: 'Lunch on the Company', description: 'Get a free lunch delivered to the office.', cost: 150 },
+];
+
+export const availability: Availability[] = [
+    { userId: 'user1', dates: ['2024-07-25', '2024-07-26', '2024-08-01'] },
+    { userId: 'user2', dates: ['2024-07-26', '2024-07-29', '2024-08-02'] },
+    { userId: 'user3', dates: ['2024-07-25', '2024-07-30', '2024-08-01'] },
+    { userId: 'user4', dates: ['2024-07-27', '2024-08-03'] },
 ];
 
 export const getGoalHistorySummary = (): string => {

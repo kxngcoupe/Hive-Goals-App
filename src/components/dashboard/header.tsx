@@ -4,8 +4,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from '@/components/ui/button';
 import { BeeIcon } from "@/components/icons/bee-icon";
 import { useAuth } from '@/context/auth-context';
-import { LogOut } from 'lucide-react';
+import { Calendar, LogOut } from 'lucide-react';
 import { users } from '@/lib/data'; // for manna, will be replaced later
+import Link from 'next/link';
 
 export default function Header() {
   const { user, signOut } = useAuth();
@@ -16,11 +17,21 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-card px-4 md:px-6">
       <div className="flex items-center gap-2">
-        <BeeIcon className="h-8 w-8 text-primary" />
-        <h1 className="font-headline text-xl font-semibold tracking-tighter text-foreground">
-          Hive Goals
-        </h1>
+        <Link href="/dashboard" className="flex items-center gap-2">
+            <BeeIcon className="h-8 w-8 text-primary" />
+            <h1 className="font-headline text-xl font-semibold tracking-tighter text-foreground">
+            Hive Goals
+            </h1>
+        </Link>
       </div>
+
+      <nav className="ml-10 flex items-center gap-4">
+        <Link href="/dashboard/calendar" className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+            <Calendar className="h-5 w-5" />
+            Team Calendar
+        </Link>
+      </nav>
+
       <div className="ml-auto flex items-center gap-4">
         <div className="text-right">
           <p className="text-sm font-medium">{user.email}</p>

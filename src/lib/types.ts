@@ -31,3 +31,8 @@ export type Reward = {
   description: string;
   cost: number;
 };
+
+export type Availability = {
+  userId: string;
+  dates: string[]; // YYYY-MM-DD format
+};
