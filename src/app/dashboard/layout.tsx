@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useAuth } from '@/context/auth-context';
@@ -20,7 +21,7 @@ export default function DashboardLayout({
     }
   }, [user, loading, router]);
 
-  if (loading || !user) {
+  if (loading) {
     return (
       <div className="flex min-h-screen w-full flex-col items-center justify-center bg-background">
         <BeeIcon className="h-12 w-12 animate-pulse text-primary" />
@@ -29,10 +30,11 @@ export default function DashboardLayout({
     );
   }
 
-  return (
+  // Only render the children if the user is authenticated
+  return user ? (
     <div className="flex min-h-screen w-full flex-col bg-background">
       <Header />
       <main className="flex-1">{children}</main>
     </div>
-  );
+  ) : null; // or a fallback component
 }
