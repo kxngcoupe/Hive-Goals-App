@@ -16,8 +16,8 @@ export const goals: Goal[] = [
     tasks: [
       { id: 't1', description: 'Finalize campaign creative assets', manna: 50, isCompleted: true, assignedTo: 'user1' },
       { id: 't2', description: 'Set up social media advertising', manna: 40, isCompleted: true, assignedTo: 'user2' },
-      { id: 't3', description: 'Draft and schedule launch day emails', manna: 30, isCompleted: false, assignedTo: 'user1' },
-      { id: 't4', description: 'Coordinate with press and influencers', manna: 60, isCompleted: false, assignedTo: 'user3' },
+      { id: 't3', description: 'Draft and schedule 5 launch day emails', manna: 30, isCompleted: false, assignedTo: 'user1', quota: 5, progress: 1 },
+      { id: 't4', description: 'Coordinate with 10 press and influencers', manna: 60, isCompleted: false, assignedTo: 'user3', quota: 10, progress: 4 },
     ],
   },
   {

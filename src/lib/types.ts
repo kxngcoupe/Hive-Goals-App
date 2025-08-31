@@ -13,6 +13,8 @@ export type Task = {
   manna: number;
   isCompleted: boolean;
   assignedTo: string; // User ID
+  quota?: number; // e.g. "make 10 sales calls"
+  progress?: number; // e.g. 3 of 10 calls made
 };
 
 export type Goal = {

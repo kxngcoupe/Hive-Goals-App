@@ -6,7 +6,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Progress } from '@/components/ui/progress';
 import { TaskItem } from '@/components/dashboard/task-item';
 import { users } from '@/lib/data';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { differenceInDays, format, parseISO } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import { CalendarIcon, Hexagon, Pencil } from 'lucide-react';
@@ -23,13 +23,25 @@ export function GoalCard({ goal: initialGoal }: { goal: Goal }) {
   const completedTasks = useMemo(() => tasks.filter((task) => task.isCompleted).length, [tasks]);
   const progress = useMemo(() => (tasks.length > 0 ? (completedTasks / tasks.length) * 100 : 0), [completedTasks, tasks.length]);
 
-  const handleTaskToggle = (taskId: string, isCompleted: boolean) => {
+  const handleTaskToggle = useCallback((taskId: string, isCompleted: boolean) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
         task.id === taskId ? { ...task, isCompleted } : task
       )
     );
-  };
+  }, []);
+
+  const handleProgressChange = useCallback((taskId: string, newProgress: number) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => {
+        if (task.id === taskId) {
+          const isCompleted = task.quota ? newProgress >= task.quota : task.isCompleted;
+          return { ...task, progress: newProgress, isCompleted };
+        }
+        return task;
+      })
+    );
+  }, []);
   
   const handleGoalSave = (updatedGoal: Goal) => {
     setGoal(updatedGoal);
@@ -41,7 +53,18 @@ export function GoalCard({ goal: initialGoal }: { goal: Goal }) {
   const daysLeft = differenceInDays(deadline, new Date());
   
   const totalManna = useMemo(() => tasks.reduce((sum, task) => sum + task.manna, 0), [tasks]);
-  const earnedManna = useMemo(() => tasks.filter(t => t.isCompleted).reduce((sum, task) => sum + task.manna, 0), [tasks]);
+  const earnedManna = useMemo(() => {
+    return tasks.reduce((sum, task) => {
+        if (task.isCompleted) {
+            return sum + task.manna;
+        }
+        if (typeof task.quota === 'number' && typeof task.progress === 'number') {
+            // Prorated manna for quota tasks
+            return sum + Math.floor((task.progress / task.quota) * task.manna);
+        }
+        return sum;
+    }, 0);
+  }, [tasks]);
 
 
   return (
@@ -93,7 +116,7 @@ export function GoalCard({ goal: initialGoal }: { goal: Goal }) {
               <div className="divide-y">
                 {tasks.map((task) => {
                   const user = users.find((u) => u.id === task.assignedTo);
-                  return <TaskItem key={task.id} task={task} user={user} onToggle={handleTaskToggle} />;
+                  return <TaskItem key={task.id} task={task} user={user} onToggle={handleTaskToggle} onProgressChange={handleProgressChange} />;
                 })}
               </div>
             </AccordionContent>

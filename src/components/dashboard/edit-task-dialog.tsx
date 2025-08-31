@@ -1,7 +1,7 @@
 'use client';
 
 import type { Task } from '@/lib/types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -25,12 +25,22 @@ interface EditTaskDialogProps {
 export function EditTaskDialog({ isOpen, onOpenChange, task, onSave }: EditTaskDialogProps) {
   const [description, setDescription] = useState(task.description);
   const [manna, setManna] = useState(task.manna);
+  const [quota, setQuota] = useState(task.quota);
+
+  useEffect(() => {
+    setDescription(task.description);
+    setManna(task.manna);
+    setQuota(task.quota);
+  }, [task]);
+
 
   const handleSave = () => {
     onSave({
       ...task,
       description,
       manna: Number(manna),
+      quota: quota ? Number(quota) : undefined,
+      progress: quota ? task.progress || 0 : undefined,
     });
   };
 
@@ -50,14 +60,26 @@ export function EditTaskDialog({ isOpen, onOpenChange, task, onSave }: EditTaskD
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="manna">Manna</Label>
-            <Input
-              id="manna"
-              type="number"
-              value={manna}
-              onChange={(e) => setManna(Number(e.target.value))}
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+                <Label htmlFor="manna">Manna</Label>
+                <Input
+                id="manna"
+                type="number"
+                value={manna}
+                onChange={(e) => setManna(Number(e.target.value))}
+                />
+            </div>
+            <div className="space-y-2">
+                <Label htmlFor="quota">Quota (Optional)</Label>
+                <Input
+                id="quota"
+                type="number"
+                placeholder="e.g. 10"
+                value={quota ?? ''}
+                onChange={(e) => setQuota(e.target.value ? Number(e.target.value) : undefined)}
+                />
+            </div>
           </div>
         </div>
         <DialogFooter>
