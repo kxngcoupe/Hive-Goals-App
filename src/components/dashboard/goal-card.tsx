@@ -20,8 +20,27 @@ export function GoalCard({ goal: initialGoal }: { goal: Goal }) {
   const [tasks, setTasks] = useState(goal.tasks);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
+  const { totalProgress, totalQuota } = useMemo(() => {
+    return tasks.reduce(
+      (acc, task) => {
+        if (typeof task.quota === 'number') {
+          acc.totalQuota += task.quota;
+          acc.totalProgress += task.progress ?? 0;
+        } else {
+          // Treat non-quota tasks as quota 1
+          acc.totalQuota += 1;
+          if (task.isCompleted) {
+            acc.totalProgress += 1;
+          }
+        }
+        return acc;
+      },
+      { totalProgress: 0, totalQuota: 0 }
+    );
+  }, [tasks]);
+
+  const progress = useMemo(() => (totalQuota > 0 ? (totalProgress / totalQuota) * 100 : 0), [totalProgress, totalQuota]);
   const completedTasks = useMemo(() => tasks.filter((task) => task.isCompleted).length, [tasks]);
-  const progress = useMemo(() => (tasks.length > 0 ? (completedTasks / tasks.length) * 100 : 0), [completedTasks, tasks.length]);
 
   const handleTaskToggle = useCallback((taskId: string, isCompleted: boolean) => {
     setTasks((prevTasks) =>
