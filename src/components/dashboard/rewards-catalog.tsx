@@ -11,7 +11,7 @@ export default function RewardsCatalog() {
       <CardHeader>
         <PageHeader
           title="Rewards Catalog"
-          description="Spend your hard-earned points on sweet rewards."
+          description="Spend your hard-earned manna on sweet rewards."
         >
           <Button variant="outline" size="sm">
             <Lightbulb className="mr-2 h-4 w-4" />
@@ -29,7 +29,7 @@ export default function RewardsCatalog() {
               </div>
               <Button size="sm" variant="ghost" className="flex-col h-auto px-2 py-1">
                 <Badge className="font-mono text-base bg-primary/20 text-primary-foreground hover:bg-primary/30">
-                  {reward.cost} pts
+                  {reward.cost} manna
                 </Badge>
               </Button>
             </div>

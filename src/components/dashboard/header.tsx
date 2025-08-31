@@ -5,11 +5,11 @@ import { Button } from '@/components/ui/button';
 import { BeeIcon } from "@/components/icons/bee-icon";
 import { useAuth } from '@/context/auth-context';
 import { LogOut } from 'lucide-react';
-import { users } from '@/lib/data'; // for points, will be replaced later
+import { users } from '@/lib/data'; // for manna, will be replaced later
 
 export default function Header() {
   const { user, signOut } = useAuth();
-  const currentUser = users.find(u => u.name === 'Alex Queen') ?? users[0]; // mock data for points
+  const currentUser = users.find(u => u.name === 'Alex Queen') ?? users[0]; // mock data for manna
 
   if (!user) return null;
 
@@ -24,7 +24,7 @@ export default function Header() {
       <div className="ml-auto flex items-center gap-4">
         <div className="text-right">
           <p className="text-sm font-medium">{user.email}</p>
-          <p className="text-xs text-muted-foreground">{currentUser.points.toLocaleString()} points</p>
+          <p className="text-xs text-muted-foreground">{currentUser.manna.toLocaleString()} manna</p>
         </div>
         <Avatar>
           <AvatarImage src={user.photoURL ?? ''} alt={user.email ?? ''} data-ai-hint="person portrait" />

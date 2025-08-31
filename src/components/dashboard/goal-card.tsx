@@ -40,8 +40,8 @@ export function GoalCard({ goal: initialGoal }: { goal: Goal }) {
   const deadline = parseISO(goal.deadline);
   const daysLeft = differenceInDays(deadline, new Date());
   
-  const totalPoints = useMemo(() => tasks.reduce((sum, task) => sum + task.points, 0), [tasks]);
-  const earnedPoints = useMemo(() => tasks.filter(t => t.isCompleted).reduce((sum, task) => sum + task.points, 0), [tasks]);
+  const totalManna = useMemo(() => tasks.reduce((sum, task) => sum + task.manna, 0), [tasks]);
+  const earnedManna = useMemo(() => tasks.filter(t => t.isCompleted).reduce((sum, task) => sum + task.manna, 0), [tasks]);
 
 
   return (
@@ -75,7 +75,7 @@ export function GoalCard({ goal: initialGoal }: { goal: Goal }) {
         <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1.5">
                 <Hexagon className="h-4 w-4 text-primary" />
-                <span>{earnedPoints} / {totalPoints} Points</span>
+                <span>{earnedManna} / {totalManna} Manna</span>
             </div>
             <div className="flex-1">
                 <Progress value={progress} className="h-2" />

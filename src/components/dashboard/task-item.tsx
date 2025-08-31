@@ -65,7 +65,7 @@ export function TaskItem({ task: initialTask, user, onToggle }: TaskItemProps) {
       >
         {task.description}
       </label>
-      <Badge variant="outline" className="font-mono text-primary">{task.points} pts</Badge>
+      <Badge variant="outline" className="font-mono text-primary">{task.manna} manna</Badge>
       {user && (
         <Avatar className="h-8 w-8">
           <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person portrait" />

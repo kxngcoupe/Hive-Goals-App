@@ -24,13 +24,13 @@ interface EditTaskDialogProps {
 
 export function EditTaskDialog({ isOpen, onOpenChange, task, onSave }: EditTaskDialogProps) {
   const [description, setDescription] = useState(task.description);
-  const [points, setPoints] = useState(task.points);
+  const [manna, setManna] = useState(task.manna);
 
   const handleSave = () => {
     onSave({
       ...task,
       description,
-      points: Number(points),
+      manna: Number(manna),
     });
   };
 
@@ -51,12 +51,12 @@ export function EditTaskDialog({ isOpen, onOpenChange, task, onSave }: EditTaskD
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="points">Points</Label>
+            <Label htmlFor="manna">Manna</Label>
             <Input
-              id="points"
+              id="manna"
               type="number"
-              value={points}
-              onChange={(e) => setPoints(Number(e.target.value))}
+              value={manna}
+              onChange={(e) => setManna(Number(e.target.value))}
             />
           </div>
         </div>

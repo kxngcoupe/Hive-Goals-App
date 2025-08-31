@@ -22,7 +22,7 @@ export default function Leaderboard() {
   const { isAdmin, user: authUser } = useAuth();
   const [users, setUsers] = useState<User[]>(initialUsers);
 
-  const sortedUsers = [...users].sort((a, b) => b.points - a.points);
+  const sortedUsers = [...users].sort((a, b) => b.manna - a.manna);
 
   const rankIcons = [
     <Trophy key="1" className="h-5 w-5 text-yellow-500 fill-yellow-500" />,
@@ -66,7 +66,7 @@ export default function Leaderboard() {
                     </Avatar>
                     <div className="flex-1">
                       <p className="font-medium">{user.name}</p>
-                      <p className="text-sm text-muted-foreground">{user.points.toLocaleString()} points</p>
+                      <p className="text-sm text-muted-foreground">{user.manna.toLocaleString()} manna</p>
                     </div>
                   </div>
                 </TableCell>

@@ -1,10 +1,10 @@
 import type { User, Goal, Reward, Task } from './types';
 
 export const users: User[] = [
-  { id: 'user1', name: 'Alex Queen', email: 'isaiahwcooper@gmail.com', avatarUrl: 'https://picsum.photos/100/100?a', points: 250, role: 'Admin' },
-  { id: 'user2', name: 'Barry King', email: 'barry.king@example.com', avatarUrl: 'https://picsum.photos/100/100?b', points: 180, role: 'Member' },
-  { id: 'user3', name: 'Casey Jack', email: 'casey.jack@example.com', avatarUrl: 'https://picsum.photos/100/100?c', points: 320, role: 'Member' },
-  { id: 'user4', name: 'Drew Ace', email: 'drew.ace@example.com', avatarUrl: 'https://picsum.photos/100/100?d', points: 150, role: 'Member' },
+  { id: 'user1', name: 'Alex Queen', email: 'isaiahwcooper@gmail.com', avatarUrl: 'https://picsum.photos/100/100?a', manna: 250, role: 'Admin' },
+  { id: 'user2', name: 'Barry King', email: 'barry.king@example.com', avatarUrl: 'https://picsum.photos/100/100?b', manna: 180, role: 'Member' },
+  { id: 'user3', name: 'Casey Jack', email: 'casey.jack@example.com', avatarUrl: 'https://picsum.photos/100/100?c', manna: 320, role: 'Member' },
+  { id: 'user4', name: 'Drew Ace', email: 'drew.ace@example.com', avatarUrl: 'https://picsum.photos/100/100?d', manna: 150, role: 'Member' },
 ];
 
 export const goals: Goal[] = [
@@ -14,10 +14,10 @@ export const goals: Goal[] = [
     description: 'Execute a successful marketing campaign for the new product launch in the third quarter.',
     deadline: '2024-09-30',
     tasks: [
-      { id: 't1', description: 'Finalize campaign creative assets', points: 50, isCompleted: true, assignedTo: 'user1' },
-      { id: 't2', description: 'Set up social media advertising', points: 40, isCompleted: true, assignedTo: 'user2' },
-      { id: 't3', description: 'Draft and schedule launch day emails', points: 30, isCompleted: false, assignedTo: 'user1' },
-      { id: 't4', description: 'Coordinate with press and influencers', points: 60, isCompleted: false, assignedTo: 'user3' },
+      { id: 't1', description: 'Finalize campaign creative assets', manna: 50, isCompleted: true, assignedTo: 'user1' },
+      { id: 't2', description: 'Set up social media advertising', manna: 40, isCompleted: true, assignedTo: 'user2' },
+      { id: 't3', description: 'Draft and schedule launch day emails', manna: 30, isCompleted: false, assignedTo: 'user1' },
+      { id: 't4', description: 'Coordinate with press and influencers', manna: 60, isCompleted: false, assignedTo: 'user3' },
     ],
   },
   {
@@ -26,11 +26,11 @@ export const goals: Goal[] = [
     description: 'Redesign and implement a more intuitive customer onboarding experience to increase user retention.',
     deadline: '2024-08-15',
     tasks: [
-      { id: 't5', description: 'Conduct user research on pain points', points: 40, isCompleted: true, assignedTo: 'user3' },
-      { id: 't6', description: 'Create new onboarding wireframes', points: 50, isCompleted: true, assignedTo: 'user1' },
-      { id: 't7', description: 'Develop interactive tutorial components', points: 80, isCompleted: true, assignedTo: 'user2' },
-      { id: 't8', description: 'A/B test new flow against the old one', points: 70, isCompleted: true, assignedTo: 'user4' },
-      { id: 't9', description: 'Analyze A/B test results and report', points: 30, isCompleted: false, assignedTo: 'user3' },
+      { id: 't5', description: 'Conduct user research on pain points', manna: 40, isCompleted: true, assignedTo: 'user3' },
+      { id: 't6', description: 'Create new onboarding wireframes', manna: 50, isCompleted: true, assignedTo: 'user1' },
+      { id: 't7', description: 'Develop interactive tutorial components', manna: 80, isCompleted: true, assignedTo: 'user2' },
+      { id: 't8', description: 'A/B test new flow against the old one', manna: 70, isCompleted: true, assignedTo: 'user4' },
+      { id: 't9', description: 'Analyze A/B test results and report', manna: 30, isCompleted: false, assignedTo: 'user3' },
     ],
   },
   {
@@ -39,9 +39,9 @@ export const goals: Goal[] = [
     description: 'Increase website pagespeed and optimize core web vitals for a better user experience.',
     deadline: '2024-07-20',
     tasks: [
-      { id: 't10', description: 'Optimize all marketing images', points: 30, isCompleted: true, assignedTo: 'user4' },
-      { id: 't11', description: 'Implement server-side rendering', points: 100, isCompleted: false, assignedTo: 'user2' },
-      { id: 't12', description: 'Minify CSS and JavaScript files', points: 20, isCompleted: true, assignedTo: 'user2' },
+      { id: 't10', description: 'Optimize all marketing images', manna: 30, isCompleted: true, assignedTo: 'user4' },
+      { id: 't11', description: 'Implement server-side rendering', manna: 100, isCompleted: false, assignedTo: 'user2' },
+      { id: 't12', description: 'Minify CSS and JavaScript files', manna: 20, isCompleted: true, assignedTo: 'user2' },
     ]
   },
 ];
@@ -57,7 +57,7 @@ export const getGoalHistorySummary = (): string => {
   return goals.map(goal => {
     const completedTasks = goal.tasks.filter(t => t.isCompleted).length;
     const totalTasks = goal.tasks.length;
-    const effort = goal.tasks.reduce((sum, task) => sum + task.points, 0);
-    return `Goal: "${goal.title}" (Completed ${completedTasks}/${totalTasks} tasks, Total Effort: ${effort} points)`;
+    const effort = goal.tasks.reduce((sum, task) => sum + task.manna, 0);
+    return `Goal: "${goal.title}" (Completed ${completedTasks}/${totalTasks} tasks, Total Effort: ${effort} manna)`;
   }).join('\n');
 };

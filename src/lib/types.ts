@@ -3,14 +3,14 @@ export type User = {
   name: string;
   email: string;
   avatarUrl: string;
-  points: number;
+  manna: number;
   role: 'Admin' | 'Member';
 };
 
 export type Task = {
   id: string;
   description: string;
-  points: number;
+  manna: number;
   isCompleted: boolean;
   assignedTo: string; // User ID
 };
