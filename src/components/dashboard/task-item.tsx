@@ -7,6 +7,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import * as Tone from 'tone';
+import { useAuth } from '@/context/auth-context';
+import { Button } from '../ui/button';
+import { Pencil } from 'lucide-react';
+import { EditTaskDialog } from './edit-task-dialog';
 
 type TaskItemProps = {
   task: Task;
@@ -14,8 +18,11 @@ type TaskItemProps = {
   onToggle: (taskId: string, isCompleted: boolean) => void;
 };
 
-export function TaskItem({ task, user, onToggle }: TaskItemProps) {
+export function TaskItem({ task: initialTask, user, onToggle }: TaskItemProps) {
+  const { isAdmin } = useAuth();
+  const [task, setTask] = useState(initialTask);
   const [isChecked, setIsChecked] = useState(task.isCompleted);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const synth = useRef<Tone.Synth | null>(null);
 
   useEffect(() => {
@@ -33,6 +40,11 @@ export function TaskItem({ task, user, onToggle }: TaskItemProps) {
       // Play a sound on task completion
       synth.current.triggerAttackRelease('C5', '8n', Tone.now());
     }
+  };
+
+  const handleTaskSave = (updatedTask: Task) => {
+    setTask(updatedTask);
+    setIsEditDialogOpen(false);
   };
 
   return (
@@ -59,6 +71,19 @@ export function TaskItem({ task, user, onToggle }: TaskItemProps) {
           <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person portrait" />
           <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
         </Avatar>
+      )}
+      {isAdmin && (
+        <>
+            <Button variant="ghost" size="icon" onClick={() => setIsEditDialogOpen(true)}>
+                <Pencil className="h-4 w-4" />
+            </Button>
+            <EditTaskDialog
+                isOpen={isEditDialogOpen}
+                onOpenChange={setIsEditDialogOpen}
+                task={task}
+                onSave={handleTaskSave}
+            />
+        </>
       )}
     </div>
   );
