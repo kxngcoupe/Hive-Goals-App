@@ -5,10 +5,11 @@ import { useAuth } from '@/context/auth-context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { BeeIcon } from '../icons/bee-icon';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -81,6 +82,14 @@ export default function LoginForm() {
           </Button>
         </div>
       </CardContent>
+       <CardFooter className="justify-center">
+        <p className="text-sm text-muted-foreground">
+          Have an invite link?{' '}
+          <Link href="/join/new" className="font-medium text-primary hover:underline">
+            Join a Hive
+          </Link>
+        </p>
+      </CardFooter>
     </Card>
   );
 }

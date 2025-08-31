@@ -2,11 +2,11 @@
 
 import type { User } from '@/lib/types';
 import { users as initialUsers } from '@/lib/data';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
 import { PageHeader } from '@/components/dashboard/page-header';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Crown, Shield, Trophy } from 'lucide-react';
+import { Crown, Link as LinkIcon, Shield, Trophy } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import {
   Select,
@@ -17,10 +17,13 @@ import {
 } from '@/components/ui/select';
 import { useState } from 'react';
 import { Badge } from '../ui/badge';
+import { Button } from '../ui/button';
+import { useToast } from '@/hooks/use-toast';
 
 export default function Leaderboard() {
   const { isAdmin, user: authUser } = useAuth();
   const [users, setUsers] = useState<User[]>(initialUsers);
+  const { toast } = useToast();
 
   const sortedUsers = [...users].sort((a, b) => b.manna - a.manna);
 
@@ -36,6 +39,16 @@ export default function Leaderboard() {
     setUsers((prevUsers) =>
       prevUsers.map((user) => (user.id === userId ? { ...user, role: newRole } : user))
     );
+  };
+
+  const handleInviteClick = () => {
+    // In a real app, this would be a unique, secure token.
+    const inviteLink = `${window.location.origin}/join/new`;
+    navigator.clipboard.writeText(inviteLink);
+    toast({
+      title: 'Invite Link Copied!',
+      description: 'The invite link has been copied to your clipboard.',
+    });
   };
 
   const RoleIcon = ({ role }: { role: 'Admin' | 'Member' }) => {
@@ -103,6 +116,14 @@ export default function Leaderboard() {
           </TableBody>
         </Table>
       </CardContent>
+       {isAdmin && (
+        <CardFooter className="border-t pt-6">
+          <Button onClick={handleInviteClick} className="w-full">
+            <LinkIcon className="mr-2 h-4 w-4" />
+            Invite Members
+          </Button>
+        </CardFooter>
+      )}
     </Card>
   );
 }
