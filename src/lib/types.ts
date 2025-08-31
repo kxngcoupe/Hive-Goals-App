@@ -1,8 +1,10 @@
 export type User = {
   id: string;
   name: string;
+  email: string;
   avatarUrl: string;
   points: number;
+  role: 'Admin' | 'Member';
 };
 
 export type Task = {

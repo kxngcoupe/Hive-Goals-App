@@ -1,10 +1,10 @@
 import type { User, Goal, Reward, Task } from './types';
 
 export const users: User[] = [
-  { id: 'user1', name: 'Alex Queen', avatarUrl: 'https://picsum.photos/100/100?a', points: 250 },
-  { id: 'user2', name: 'Barry King', avatarUrl: 'https://picsum.photos/100/100?b', points: 180 },
-  { id: 'user3', name: 'Casey Jack', avatarUrl: 'https://picsum.photos/100/100?c', points: 320 },
-  { id: 'user4', name: 'Drew Ace', avatarUrl: 'https://picsum.photos/100/100?d', points: 150 },
+  { id: 'user1', name: 'Alex Queen', email: 'isaiahwcooper@gmail.com', avatarUrl: 'https://picsum.photos/100/100?a', points: 250, role: 'Admin' },
+  { id: 'user2', name: 'Barry King', email: 'barry.king@example.com', avatarUrl: 'https://picsum.photos/100/100?b', points: 180, role: 'Member' },
+  { id: 'user3', name: 'Casey Jack', email: 'casey.jack@example.com', avatarUrl: 'https://picsum.photos/100/100?c', points: 320, role: 'Member' },
+  { id: 'user4', name: 'Drew Ace', email: 'drew.ace@example.com', avatarUrl: 'https://picsum.photos/100/100?d', points: 150, role: 'Member' },
 ];
 
 export const goals: Goal[] = [

@@ -10,6 +10,7 @@ import {
   type User 
 } from 'firebase/auth';
 import { app } from '@/lib/firebase';
+import { users } from '@/lib/data';
 
 const auth = getAuth(app);
 
@@ -18,7 +19,7 @@ interface AuthContextType {
   loading: boolean;
   error: string | null;
   isAdmin: boolean;
-  signIn: (email: string, password: string) => Promise<boolean>;
+  signIn: (email: string, password:string) => Promise<boolean>;
   signUp: (email: string, password: string) => Promise<boolean>;
   signOut: () => Promise<void>;
 }
@@ -35,7 +36,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       if (user) {
-        setIsAdmin(user.email === 'isaiahwcooper@gmail.com');
+        // In a real app, you'd fetch the user's role from your database.
+        // For this prototype, we'll check the mock data.
+        const appUser = users.find(u => u.email === user.email);
+        setIsAdmin(appUser?.role === 'Admin');
       } else {
         setIsAdmin(false);
       }
@@ -51,7 +55,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       if (userCredential.user) {
-        setIsAdmin(userCredential.user.email === 'isaiahwcooper@gmail.com');
+        const appUser = users.find(u => u.email === userCredential.user.email);
+        setIsAdmin(appUser?.role === 'Admin');
       }
       setLoading(false);
       return true;
@@ -66,9 +71,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setLoading(true);
     setError(null);
     try {
+      // For this prototype, new users will default to 'Member' role.
+      // A real application would need a more robust user management system.
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       if (userCredential.user) {
-        setIsAdmin(userCredential.user.email === 'isaiahwcooper@gmail.com');
+        setIsAdmin(false); // New sign-ups are not admins
       }
       setLoading(false);
       return true;

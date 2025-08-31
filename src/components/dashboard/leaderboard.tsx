@@ -1,11 +1,27 @@
-import { users } from "@/lib/data";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { PageHeader } from "@/components/dashboard/page-header";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Trophy } from "lucide-react";
+'use client';
+
+import type { User } from '@/lib/types';
+import { users as initialUsers } from '@/lib/data';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { PageHeader } from '@/components/dashboard/page-header';
+import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Crown, Shield, Trophy } from 'lucide-react';
+import { useAuth } from '@/context/auth-context';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { useState } from 'react';
+import { Badge } from '../ui/badge';
 
 export default function Leaderboard() {
+  const { isAdmin, user: authUser } = useAuth();
+  const [users, setUsers] = useState<User[]>(initialUsers);
+
   const sortedUsers = [...users].sort((a, b) => b.points - a.points);
 
   const rankIcons = [
@@ -14,13 +30,25 @@ export default function Leaderboard() {
     <Trophy key="3" className="h-5 w-5 text-yellow-700 fill-yellow-700" />,
   ];
 
+  const handleRoleChange = (userId: string, newRole: 'Admin' | 'Member') => {
+    // In a real app, this would be an API call.
+    // For now, we update the local state.
+    setUsers((prevUsers) =>
+      prevUsers.map((user) => (user.id === userId ? { ...user, role: newRole } : user))
+    );
+  };
+
+  const RoleIcon = ({ role }: { role: 'Admin' | 'Member' }) => {
+    if (role === 'Admin') {
+      return <Crown className="h-4 w-4 text-primary" />;
+    }
+    return <Shield className="h-4 w-4 text-muted-foreground" />;
+  };
+
   return (
     <Card className="shadow-md">
       <CardHeader>
-        <PageHeader
-          title="Leaderboard"
-          description="See who's buzzing at the top of the hive."
-        />
+        <PageHeader title="Leaderboard" description="See who's buzzing at the top of the hive." />
       </CardHeader>
       <CardContent>
         <Table>
@@ -33,14 +61,42 @@ export default function Leaderboard() {
                 <TableCell>
                   <div className="flex items-center gap-4">
                     <Avatar className="h-10 w-10">
-                      <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person portrait"/>
+                      <AvatarImage src={user.avatarUrl} alt={user.name} data-ai-hint="person portrait" />
                       <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
                     </Avatar>
-                    <div>
+                    <div className="flex-1">
                       <p className="font-medium">{user.name}</p>
                       <p className="text-sm text-muted-foreground">{user.points.toLocaleString()} points</p>
                     </div>
                   </div>
+                </TableCell>
+                <TableCell className="text-right">
+                  {isAdmin ? (
+                    <div className="flex items-center justify-end gap-2">
+                      <Badge variant="outline" className="flex items-center gap-1.5">
+                        <RoleIcon role={user.role} />
+                        <span>{user.role}</span>
+                      </Badge>
+                      <Select
+                        value={user.role}
+                        onValueChange={(value: 'Admin' | 'Member') => handleRoleChange(user.id, value)}
+                        disabled={user.email === authUser?.email} // Admin can't change their own role
+                      >
+                        <SelectTrigger className="w-[120px] h-8">
+                          <SelectValue placeholder="Set role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Admin">Admin</SelectItem>
+                          <SelectItem value="Member">Member</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  ) : (
+                    <Badge variant="outline" className="flex items-center gap-1.5">
+                      <RoleIcon role={user.role} />
+                      <span>{user.role}</span>
+                    </Badge>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
