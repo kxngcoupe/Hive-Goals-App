@@ -3,13 +3,12 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  projectId: "beegoals",
-  appId: "1:22591756526:web:a320ac84107c90f6ab7bff",
-  storageBucket: "beegoals.firebasestorage.app",
-  apiKey: "AIzaSyAqj3wkWhT11cpAF-UCfeFaDtCHXxLeCQU",
-  authDomain: "beegoals.firebaseapp.com",
-  measurementId: "",
-  messagingSenderId: "22591756526"
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
 };
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
