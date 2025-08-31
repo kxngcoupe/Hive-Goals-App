@@ -15,15 +15,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { useToast } from '@/hooks/use-toast';
 
 export default function Leaderboard() {
   const { isAdmin, user: authUser } = useAuth();
+  // We use a state that is initialized from initialUsers, but can be updated.
   const [users, setUsers] = useState<User[]>(initialUsers);
   const { toast } = useToast();
+
+  // This effect ensures that if the underlying mock data changes (e.g. through profile edits),
+  // the leaderboard reflects it. This is a workaround for not having a central state management.
+  useEffect(() => {
+    setUsers(initialUsers);
+  }, [initialUsers]);
+
 
   const sortedUsers = [...users].sort((a, b) => b.manna - a.manna);
 

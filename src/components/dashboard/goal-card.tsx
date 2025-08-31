@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Progress } from '@/components/ui/progress';
 import { TaskItem } from '@/components/dashboard/task-item';
-import { users } from '@/lib/data';
 import { useState, useMemo, useCallback } from 'react';
 import { differenceInDays, format, parseISO } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
@@ -118,10 +117,9 @@ export function GoalCard({ goal: initialGoal }: { goal: Goal }) {
             </AccordionTrigger>
             <AccordionContent>
               <div className="divide-y">
-                {tasks.map((task) => {
-                  const user = users.find((u) => u.id === task.assignedTo);
-                  return <TaskItem key={task.id} task={task} user={user} onToggle={handleTaskToggle} onProgressChange={handleProgressChange} />;
-                })}
+                {tasks.map((task) => (
+                  <TaskItem key={task.id} task={task} onToggle={handleTaskToggle} onProgressChange={handleProgressChange} />
+                ))}
               </div>
             </AccordionContent>
           </AccordionItem>

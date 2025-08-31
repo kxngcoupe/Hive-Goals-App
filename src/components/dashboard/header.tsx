@@ -36,14 +36,16 @@ export default function Header() {
       </nav>
 
       <div className="ml-auto flex items-center gap-4">
-        <div className="text-right">
-          <p className="text-sm font-medium">{user.email}</p>
-          <p className="text-xs text-muted-foreground">{currentUser.manna.toLocaleString()} manna</p>
-        </div>
-        <Avatar>
-          <AvatarImage src={user.photoURL ?? ''} alt={user.email ?? ''} data-ai-hint="person portrait" />
-          <AvatarFallback>{user.email?.[0].toUpperCase()}</AvatarFallback>
-        </Avatar>
+        <Link href="/dashboard/profile" className="flex items-center gap-4 group">
+            <div className="text-right group-hover:text-primary transition-colors">
+                <p className="text-sm font-medium">{currentUser.name}</p>
+                <p className="text-xs text-muted-foreground">{currentUser.manna.toLocaleString()} manna</p>
+            </div>
+            <Avatar>
+                <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} data-ai-hint="person portrait" />
+                <AvatarFallback>{currentUser.name?.[0].toUpperCase()}</AvatarFallback>
+            </Avatar>
+        </Link>
         <Button variant="ghost" size="icon" onClick={signOut}>
           <LogOut className="h-4 w-4" />
         </Button>

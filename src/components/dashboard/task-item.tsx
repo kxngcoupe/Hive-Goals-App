@@ -12,19 +12,21 @@ import { Button } from '../ui/button';
 import { Minus, Pencil, Plus } from 'lucide-react';
 import { EditTaskDialog } from './edit-task-dialog';
 import { Progress } from '../ui/progress';
+import { users } from '@/lib/data';
 
 type TaskItemProps = {
   task: Task;
-  user?: User;
   onToggle: (taskId: string, isCompleted: boolean) => void;
   onProgressChange: (taskId: string, newProgress: number) => void;
 };
 
-export function TaskItem({ task: initialTask, user, onToggle, onProgressChange }: TaskItemProps) {
+export function TaskItem({ task: initialTask, onToggle, onProgressChange }: TaskItemProps) {
   const { isAdmin } = useAuth();
   const [task, setTask] = useState(initialTask);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const synth = useRef<Tone.Synth | null>(null);
+
+  const user = users.find((u) => u.id === task.assignedTo);
 
   const isQuotaTask = useMemo(() => typeof task.quota === 'number', [task.quota]);
 
