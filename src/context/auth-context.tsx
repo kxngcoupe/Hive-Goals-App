@@ -17,6 +17,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   error: string | null;
+  isAdmin: boolean;
   signIn: (email: string, password: string) => Promise<boolean>;
   signUp: (email: string, password: string) => Promise<boolean>;
   signOut: () => Promise<void>;
@@ -28,10 +29,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
+      if (user) {
+        setIsAdmin(user.email === 'isaiahwcooper@gmail.com');
+      } else {
+        setIsAdmin(false);
+      }
       setLoading(false);
     });
 
@@ -42,7 +49,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setLoading(true);
     setError(null);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      if (userCredential.user) {
+        setIsAdmin(userCredential.user.email === 'isaiahwcooper@gmail.com');
+      }
       setLoading(false);
       return true;
     } catch (e: any) {
@@ -56,7 +66,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setLoading(true);
     setError(null);
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      if (userCredential.user) {
+        setIsAdmin(userCredential.user.email === 'isaiahwcooper@gmail.com');
+      }
       setLoading(false);
       return true;
     } catch (e: any) {
@@ -71,6 +84,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setError(null);
     try {
       await firebaseSignOut(auth);
+      setIsAdmin(false);
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -82,6 +96,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     user,
     loading,
     error,
+    isAdmin,
     signIn,
     signUp,
     signOut,
