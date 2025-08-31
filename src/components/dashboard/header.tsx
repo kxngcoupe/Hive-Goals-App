@@ -10,7 +10,7 @@ export default function Header() {
       <div className="flex items-center gap-2">
         <BeeIcon className="h-8 w-8 text-primary" />
         <h1 className="font-headline text-xl font-semibold tracking-tighter text-foreground">
-          BeeGoals
+          Hive Goals
         </h1>
       </div>
       <div className="ml-auto flex items-center gap-4">
