@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from '@/components/ui/button';
 import { BeeIcon } from "@/components/icons/bee-icon";
 import { useAuth } from '@/context/auth-context';
-import { Calendar, LogOut } from 'lucide-react';
+import { Calendar, LogOut, MessageSquare } from 'lucide-react';
 import { users } from '@/lib/data'; // for manna, will be replaced later
 import Link from 'next/link';
 
@@ -28,10 +28,14 @@ export default function Header() {
         </Link>
       </div>
 
-      <nav className="ml-10 flex items-center gap-4">
+      <nav className="ml-10 hidden md:flex items-center gap-6">
         <Link href="/dashboard/calendar" className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
             <Calendar className="h-5 w-5" />
             Team Calendar
+        </Link>
+        <Link href="/dashboard/message-board" className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+            <MessageSquare className="h-5 w-5" />
+            Message Board
         </Link>
       </nav>
 

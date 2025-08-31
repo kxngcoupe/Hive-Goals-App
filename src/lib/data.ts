@@ -1,4 +1,5 @@
-import type { User, Goal, Reward, Task, Availability, Event } from './types';
+import type { User, Goal, Reward, Task, Availability, Event, Message } from './types';
+import { formatISO } from 'date-fns';
 
 export const users: User[] = [
   { id: 'user1', name: 'Alex Queen', email: 'isaiahwcooper@gmail.com', avatarUrl: 'https://picsum.photos/100/100?a', manna: 250, role: 'Admin' },
@@ -63,6 +64,13 @@ export const availability: Availability[] = [
     { userId: 'user2', times: [{ date: '2024-07-26', start: '10:00', end: '15:00' }] },
     { userId: 'user3', times: [{ date: '2024-07-25', start: '11:00', end: '14:00' }, { date: '2024-08-01', start: '09:00', end: '11:00' }] },
 ];
+
+export const messages: Message[] = [
+    { id: 'msg1', userId: 'user1', content: 'Hey everyone, just wanted to remind you about the Q3 launch sync tomorrow!', timestamp: formatISO(new Date(Date.now() - 1000 * 60 * 60 * 2)) },
+    { id: 'msg2', userId: 'user3', content: 'Thanks for the reminder, Alex! I have the user research data ready to share.', timestamp: formatISO(new Date(Date.now() - 1000 * 60 * 30)) },
+    { id: 'msg3', userId: 'user2', content: 'Looking forward to it. I\'ve pushed the latest interactive components for the onboarding flow.', timestamp: formatISO(new Date(Date.now() - 1000 * 60 * 15)) },
+];
+
 
 export const getGoalHistorySummary = (): string => {
   return goals.map(goal => {

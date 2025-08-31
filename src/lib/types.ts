@@ -47,3 +47,10 @@ export type Event = {
     description: string;
     date: string; // YYYY-MM-DD format
 };
+
+export type Message = {
+  id: string;
+  userId: string;
+  content: string;
+  timestamp: string; // ISO 8601 format
+};
